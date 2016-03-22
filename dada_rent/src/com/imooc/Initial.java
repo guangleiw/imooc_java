@@ -29,7 +29,9 @@ public class Initial {
 		System.out.println("请输入你要租车的数量：");
 		
 		int num = scanner.nextInt();
-		if (num >6 || num <= 0) return;	
+		//if (num >6 || num <= 0) return;	
+		
+		//This line is add for github test ;
 
 	}
 

@@ -1,5 +1,9 @@
 package com.imooc;
 
+/*
+ * This is a good car
+ */
+
 public abstract class Car {
 	protected String brand;
 	protected double price;

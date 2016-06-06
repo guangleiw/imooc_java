@@ -27,7 +27,9 @@ public class Yard extends Frame{
 		}
 		
 		g.setColor(c);
-		s.draw(g);
+		s.eat(e);
+		
+		e.draw(g);s.draw(g);
 		
 	}
 
@@ -36,6 +38,7 @@ public class Yard extends Frame{
 	public static final int BLOCK_SIZE=10;
 	
 	Snake s = new Snake();
+	Egg e = new Egg();
 	
 	public void launch(){
 		this.setLocation(200,200);
@@ -60,7 +63,7 @@ public class Yard extends Frame{
 			while(true){
 				repaint();
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

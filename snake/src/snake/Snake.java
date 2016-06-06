@@ -2,6 +2,7 @@ package snake;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class Snake {
 	int size = 0;
 	Dir dir = Dir.L;
 
-	private Node n = new Node(20, 30, Dir.L);
+	private Node n = new Node(20, 35, Dir.L);
 
 	public Snake(List<Node> nodes) {
 
@@ -80,7 +81,7 @@ public class Snake {
 		Node node = null;
 		switch (head.dir) {
 		case L:
-			node = new Node(head.row+1, head.col - 1, head.dir);
+			node = new Node(head.row, head.col - 1, head.dir);
 			break;
 		case R:
 			node = new Node(head.row, head.col + 1, head.dir);
@@ -116,10 +117,22 @@ public class Snake {
 		void draw(Graphics g) {
 			Color c = g.getColor();
 			g.setColor(Color.GREEN);
-			g.fillRect(Yard.BLOCK_SIZE * col, Yard.BLOCK_SIZE * col, w, h);
+			g.fillRect(Yard.BLOCK_SIZE * col, Yard.BLOCK_SIZE * row, w, h);
 			g.setColor(c);
 		}
 	}
+	
+	public void eat(Egg e){
+		if(this.getRect().intersects(e.getRect())){
+			e.reAppear();
+			
+			this.addToHead();
+		}
+	}
+	
+	 private Rectangle getRect(){
+		 return new Rectangle(Yard.BLOCK_SIZE*head.col,Yard.BLOCK_SIZE*head.row,head.w,head.h);
+	 }
 
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub

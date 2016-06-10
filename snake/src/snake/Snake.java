@@ -11,6 +11,7 @@ public class Snake {
 	Node tail = null;
 	int size = 0;
 	Dir dir = Dir.L;
+//	private static Yard y = new Yard();
 
 	private Node n = new Node(20, 35, Dir.L);
 
@@ -50,16 +51,32 @@ public class Snake {
 	public void draw(Graphics g) {
 		if (size <= 0)
 			return;
+		move();
 		for (Node n = head; n != null; n = n.next) {
 			n.draw(g);
 		}
-		move();
+
 	}
 
 	private void move() {
 		// TODO Auto-generated method stub
 		addToHead();
 		deleteFromTail();
+		lifeCheck();
+	}
+
+	private void lifeCheck() {
+		// TODO Auto-generated method stub
+		if(head.col<=0 || head.row <=0 || head.col >=Yard.COLS || head.row >= Yard.ROWS){
+			Yard.stop();
+		}
+		
+		for(Node n = head.next ; n!= null;n = n.next){
+			if(head.col == n.col && head.row == n.row){
+				Yard.stop();
+			}
+		}
+		
 	}
 
 	private void deleteFromTail() {
@@ -93,7 +110,7 @@ public class Snake {
 			node = new Node(head.row + 1, head.col, head.dir);
 			break;
 		}
-		System.out.println(node.col+"   "+node.row+"  "+node.dir);
+		// System.out.println(node.col+" "+node.row+" "+node.dir);
 		node.next = head;
 		head.prev = node;
 		head = node;
@@ -121,33 +138,37 @@ public class Snake {
 			g.setColor(c);
 		}
 	}
-	
-	public void eat(Egg e){
-		if(this.getRect().intersects(e.getRect())){
+
+	public void eat(Egg e) {
+		if (this.getRect().intersects(e.getRect())) {
 			e.reAppear();
-			
+			// System.out.println("Intersects");
 			this.addToHead();
 		}
 	}
-	
-	 private Rectangle getRect(){
-		 return new Rectangle(Yard.BLOCK_SIZE*head.col,Yard.BLOCK_SIZE*head.row,head.w,head.h);
-	 }
+
+	private Rectangle getRect() {
+		return new Rectangle(Yard.BLOCK_SIZE * head.col, Yard.BLOCK_SIZE * head.row, head.w, head.h);
+	}
 
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 		switch (key) {
 		case KeyEvent.VK_LEFT:
-			head.dir = Dir.L;
+			if(head.dir != Dir.R)
+				head.dir = Dir.L;
 			break;
 		case KeyEvent.VK_UP:
+			if(head.dir != Dir.D)
 			head.dir = Dir.U;
 			break;
 		case KeyEvent.VK_RIGHT:
+			if(head.dir != Dir.L)
 			head.dir = Dir.R;
 			break;
 		case KeyEvent.VK_DOWN:
+			if(head.dir != Dir.U)
 			head.dir = Dir.D;
 			break;
 		}

@@ -10,6 +10,8 @@ import java.awt.event.WindowEvent;
 
 public class Yard extends Frame{
 	
+	private static boolean flag = true;
+	
 	@Override
 	public void paint(Graphics g) {
 		Color c = g.getColor();
@@ -60,10 +62,10 @@ public class Yard extends Frame{
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			while(true){
+			while(flag){
 				repaint();
 				try {
-					Thread.sleep(500);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -79,12 +81,18 @@ public class Yard extends Frame{
 			// TODO Auto-generated method stub
 			super.keyPressed(e);
 			s.keyPressed(e);
+//			System.out.println("After Key Press");
 		}
 		 
 	}
 	
 	public  static void main(String[] args){
 		new Yard().launch();
+	}
+
+	public static void stop() {
+		// TODO Auto-generated method stub
+		flag =false;
 	}
 
 }

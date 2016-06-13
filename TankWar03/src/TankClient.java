@@ -32,6 +32,22 @@ public class TankClient extends Frame {
 		this.setResizable(false);
 		this.setBackground(Color.GREEN);
 		this.setVisible(true);
+		
+		new Thread(new PaintThread()).start();
+	}
+	
+	private class PaintThread implements  Runnable {
+		public void run() {
+			while(true){
+				repaint();
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) {

@@ -7,6 +7,9 @@ import java.awt.event.WindowEvent;
 
 public class TankClient extends Frame {
 
+	public static final int GAMEWIDTH = 800;
+	public static final int GAMEHEIGH = 600;
+	
 	int x = 50, y = 50;
 	Image offScreenImage = null;
 
@@ -23,12 +26,12 @@ public class TankClient extends Frame {
 	public void update(Graphics g) {
 		// TODO Auto-generated method stub
 		if(null == offScreenImage ){
-			offScreenImage = this.createImage(800, 600);
+			offScreenImage = this.createImage(GAMEWIDTH, GAMEHEIGH);
 		}
 		Graphics gOffScreen = offScreenImage.getGraphics();
 		Color c = gOffScreen.getColor();
 		gOffScreen.setColor(Color.GRAY);
-		gOffScreen.fillRect(0, 0, 800, 600);
+		gOffScreen.fillRect(0, 0, GAMEWIDTH, GAMEHEIGH);
 		gOffScreen.setColor(c);
 		paint(gOffScreen);
 		g.drawImage(offScreenImage, 0,0,null);
@@ -36,7 +39,7 @@ public class TankClient extends Frame {
 
 	public void lunchFrame() {
 		this.setLocation(400, 300);
-		this.setSize(800, 600);
+		this.setSize(GAMEWIDTH, GAMEHEIGH);
 		this.setTitle("TankWar");
 
 		this.addWindowListener(new WindowAdapter() {

@@ -16,8 +16,9 @@ public class TankClient extends Frame {
 
 	int x = 50, y = 50;
 	Image offScreenImage = null;
-	
-	private Tank myTank = new Tank(x,y);
+
+	private Tank myTank = new Tank(x, y,this);
+	public Missile misile = null;
 
 	@Override
 	public void update(Graphics g) {
@@ -33,9 +34,11 @@ public class TankClient extends Frame {
 		paint(gOffScreen);
 		g.drawImage(offScreenImage, 0, 0, null);
 	}
-	
-	public void paint(Graphics g){
+
+	public void paint(Graphics g) {
 		myTank.draw(g);
+		if (misile != null)
+			misile.draw(g);
 	}
 
 	public void lunchFrame() {
@@ -75,6 +78,12 @@ public class TankClient extends Frame {
 	}
 
 	private class KeyMonitor extends KeyAdapter {
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			myTank.keyReleased(e);
+		}
+
 		@Override
 		public void keyPressed(KeyEvent e) {
 			myTank.keyPressed(e);

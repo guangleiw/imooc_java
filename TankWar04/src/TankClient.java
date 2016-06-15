@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,7 +11,9 @@ public class TankClient extends Frame {
 
 	public static final int GAMEWIDTH = 800;
 	public static final int GAMEHEIGH = 600;
-	
+
+	public static final int SPEED = 5;
+
 	int x = 50, y = 50;
 	Image offScreenImage = null;
 
@@ -19,13 +23,13 @@ public class TankClient extends Frame {
 		g.setColor(Color.BLUE);
 		g.fillOval(x, y, 30, 30);
 		g.setColor(c);
-		y += 5;
+//		y += 5;
 	}
 
 	@Override
 	public void update(Graphics g) {
 		// TODO Auto-generated method stub
-		if(null == offScreenImage ){
+		if (null == offScreenImage) {
 			offScreenImage = this.createImage(GAMEWIDTH, GAMEHEIGH);
 		}
 		Graphics gOffScreen = offScreenImage.getGraphics();
@@ -34,7 +38,7 @@ public class TankClient extends Frame {
 		gOffScreen.fillRect(0, 0, GAMEWIDTH, GAMEHEIGH);
 		gOffScreen.setColor(c);
 		paint(gOffScreen);
-		g.drawImage(offScreenImage, 0,0,null);
+		g.drawImage(offScreenImage, 0, 0, null);
 	}
 
 	public void lunchFrame() {
@@ -51,6 +55,9 @@ public class TankClient extends Frame {
 		});
 		this.setResizable(false);
 		this.setBackground(Color.GRAY);
+
+		this.addKeyListener(new KeyMonitor());
+
 		this.setVisible(true);
 
 		new Thread(new PaintThread()).start();
@@ -68,6 +75,29 @@ public class TankClient extends Frame {
 				}
 			}
 		}
+	}
+
+	private class KeyMonitor extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+//			System.out.println("Key Pressed");
+			int key = e.getKeyCode();
+			switch (key) {
+			case KeyEvent.VK_UP:
+				y -= SPEED;
+				break;
+			case KeyEvent.VK_DOWN:
+				y += SPEED;
+			case KeyEvent.VK_LEFT:
+				x -= SPEED;
+			case KeyEvent.VK_RIGHT:
+				x += SPEED;
+			default:
+				break;
+			}
+
+		}
+
 	}
 
 	public static void main(String[] args) {

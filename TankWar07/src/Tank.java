@@ -6,7 +6,7 @@ public class Tank {
 
 	private static final int XSPEED = 5;
 	private static final int YSPEED = 5;
-	
+
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 30;
 
@@ -17,9 +17,9 @@ public class Tank {
 
 	private Missile misile = null;
 	private Direction dir;
-	private Direction barrelDir  = Direction.D;
+	private Direction barrelDir = Direction.D;
 	private TankClient tc = null;
-	
+
 	int x, y;
 
 	enum Direction {
@@ -30,9 +30,9 @@ public class Tank {
 		this.x = x;
 		this.y = y;
 	}
-	
-	public Tank(int x,int y,TankClient tc){
-		this(x,y);
+
+	public Tank(int x, int y, TankClient tc) {
+		this(x, y);
 		this.tc = tc;
 	}
 
@@ -42,40 +42,40 @@ public class Tank {
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		locateDirection();
-		
+
 		switch (barrelDir) {
 		case L:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x, y+HEIGHT/2);
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT / 2);
 			break;
 		case LU:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x, y);	
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y);
 			break;
 		case U:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH/2, y);
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y);
 			break;
 		case UR:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH, y);
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y);
 			break;
 		case R:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH, y+HEIGHT/2);
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT / 2);
 			break;
 		case RD:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH, y+HEIGHT);
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT);
 			break;
 		case D:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH/2, y+HEIGHT);
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y + HEIGHT);
 			break;
 		case DL:
-			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x, y+HEIGHT/2);
+			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT / 2);
 			break;
 		case STOP:
 			break;
 		}
-		
-		if(this.dir!=Direction.STOP){
+
+		if (this.dir != Direction.STOP) {
 			this.barrelDir = this.dir;
-		}		
-		
+		}
+
 		move();
 	}
 
@@ -118,7 +118,7 @@ public class Tank {
 		int key = e.getKeyCode();
 		switch (key) {
 		case KeyEvent.VK_CONTROL:
-			tc.misile = fire();
+			fire();
 			break;
 		case KeyEvent.VK_UP:
 			bU = true;
@@ -137,10 +137,11 @@ public class Tank {
 		}
 	}
 
-	public Missile fire() {
-		int x = this.x+Tank.WIDTH/2- Missile.WIDTH/2;
-		int y = this.y+Tank.HEIGHT/2 - Missile.HEIGHT/2;
-		return new Missile(x, y, barrelDir);
+	public void fire() {
+		int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
+		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
+
+		tc.missiles.add(new Missile(x, y, barrelDir));
 	}
 
 	public void keyReleased(KeyEvent e) {

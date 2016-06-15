@@ -17,6 +17,7 @@ public class Tank {
 
 	private Missile misile = null;
 	private Direction dir;
+	private Direction barrelDir  = Direction.D;
 	private TankClient tc = null;
 	
 	int x, y;
@@ -37,10 +38,44 @@ public class Tank {
 
 	public void draw(Graphics g) {
 		Color c = g.getColor();
-		g.setColor(Color.BLUE);
+		g.setColor(Color.WHITE);
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		locateDirection();
+		
+		switch (barrelDir) {
+		case L:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x, y+HEIGHT/2);
+			break;
+		case LU:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x, y);	
+			break;
+		case U:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH/2, y);
+			break;
+		case UR:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH, y);
+			break;
+		case R:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH, y+HEIGHT/2);
+			break;
+		case RD:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH, y+HEIGHT);
+			break;
+		case D:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x+WIDTH/2, y+HEIGHT);
+			break;
+		case DL:
+			g.drawLine(x + WIDTH/2, y+HEIGHT/2, x, y+HEIGHT/2);
+			break;
+		case STOP:
+			break;
+		}
+		
+		if(this.dir!=Direction.STOP){
+			this.barrelDir = this.dir;
+		}		
+		
 		move();
 	}
 
@@ -105,7 +140,7 @@ public class Tank {
 	public Missile fire() {
 		int x = this.x+Tank.WIDTH/2- Missile.WIDTH/2;
 		int y = this.y+Tank.HEIGHT/2 - Missile.HEIGHT/2;
-		return new Missile(x, y, dir);
+		return new Missile(x, y, barrelDir);
 	}
 
 	public void keyReleased(KeyEvent e) {

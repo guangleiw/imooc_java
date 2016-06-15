@@ -19,6 +19,11 @@ public class Tank {
 	private Direction dir;
 	private Direction barrelDir = Direction.D;
 	private TankClient tc = null;
+//	private boolean live = true;
+//
+//	public boolean isLive() {
+//		return live;
+//	}
 
 	int x, y;
 
@@ -77,6 +82,7 @@ public class Tank {
 		}
 
 		move();
+
 	}
 
 	public void move() {
@@ -141,7 +147,8 @@ public class Tank {
 		int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
 		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
 
-		tc.missiles.add(new Missile(x, y, barrelDir));
+		tc.missiles.add(new Missile(x, y, this.barrelDir,this.tc));
+//		System.out.println("fire");
 	}
 
 	public void keyReleased(KeyEvent e) {

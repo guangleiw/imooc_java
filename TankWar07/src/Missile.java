@@ -9,12 +9,22 @@ public class Missile {
 	public static final int WIDTH = 10;
 	public static final int HEIGHT = 10;
 	
+	private boolean live = true;
+	
 	Tank.Direction dir;
-	public Missile(int x, int y, Tank.Direction dir) {
+	private TankClient tc = null;
+
+	
+	public boolean isLive() {
+		return live;
+	}
+
+	public Missile(int x, int y, Tank.Direction dir,TankClient tc) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.tc = tc;
 	}
 	
 	public void draw(Graphics g){
@@ -23,6 +33,13 @@ public class Missile {
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		move();
+		
+		if(x<0 || y<0 || x>TankClient.GAMEWIDTH||y>TankClient.GAMEHEIGH){
+//			System.out.println("x:"+x+"y:"+y);
+			live = false;
+			this.tc.missiles.remove(this);
+			
+		}
 	}
 	
 	public void move(){

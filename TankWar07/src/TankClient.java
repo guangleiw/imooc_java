@@ -19,13 +19,16 @@ public class TankClient extends Frame {
 	int x = 50, y = 50;
 	Image offScreenImage = null;
 
-	private Tank myTank = new Tank(x, y,this,true);
-	
-	Tank enemyTank = new Tank(100,100,this,false);
-	   
-//	public Missile misile = null;
-	
+	private Tank myTank = new Tank(x, y, this, true);
+
+	// Tank enemyTank = new Tank(100,100,this,false);
+
+	// public Missile misile = null;
+
 	List<Missile> missiles = new ArrayList<>();
+	// Explode e = new Explode(70, 70, this);
+	List<Explode> explodes = new ArrayList<>();
+	List<Tank> tanks = new ArrayList<>();
 
 	@Override
 	public void update(Graphics g) {
@@ -43,20 +46,35 @@ public class TankClient extends Frame {
 	}
 
 	public void paint(Graphics g) {
-		
-		for (int i = 0; i < missiles.size(); i++) {
-			missiles.get(i).draw(g);  
+
+		for (int i = 0; i < tanks.size(); i++) {
+			Tank t = tanks.get(i);
+			t.draw(g);
 		}
-		
+
+		for (int i = 0; i < missiles.size(); i++) {
+			missiles.get(i).hitTanks(tanks);
+			missiles.get(i).draw(g);
+		}
+
 		myTank.draw(g);
-		enemyTank.draw(g);
-		
-		g.drawString("missiles count "+missiles.size(), 10,50);
-//		if (misile != null)
-//			misile.draw(g);
+
+		for (int i = 0; i < explodes.size(); i++) {
+			Explode e = explodes.get(i);
+			e.draw(g);
+		}
+
+		g.drawString("missiles count " + missiles.size(), 10, 50);
+		g.drawString("explodes count " + explodes.size(), 200, 50);
+		g.drawString("explodes count " + tanks.size(), 300, 50);
 	}
 
 	public void lunchFrame() {
+
+		for (int i = 0; i < 10; i++) {
+			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false));
+		}
+
 		this.setLocation(400, 300);
 		this.setSize(GAMEWIDTH, GAMEHEIGH);
 		this.setTitle("TankWar");

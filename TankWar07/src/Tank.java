@@ -39,7 +39,6 @@ public class Tank {
 		this(x, y, good);
 		this.tc = tc;
 	}
-	
 
 	public boolean isLive() {
 		return live;
@@ -51,13 +50,17 @@ public class Tank {
 
 	public void draw(Graphics g) {
 		Color c = g.getColor();
-		
-		if(!isLive()) return;
-		
-		if (good)
+
+		if (!isLive()) {
+			tc.tanks.remove(this);
+			return;
+		}
+
+		if (good) {
 			g.setColor(Color.WHITE);
-		else
+		} else {
 			g.setColor(Color.BLUE);
+		}
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		locateDirection();

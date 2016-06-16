@@ -14,6 +14,8 @@ public class Tank {
 	private boolean bU = false;
 	private boolean bR = false;
 	private boolean bD = false;
+	
+	private boolean good = true;
 
 	private Missile misile = null;
 	private Direction dir;
@@ -31,19 +33,21 @@ public class Tank {
 		L, LU, U, UR, R, RD, D, DL, STOP
 	};
 
-	public Tank(int x, int y) {
+	public Tank(int x, int y,boolean good) {
 		this.x = x;
 		this.y = y;
+		this.good = good;
 	}
 
-	public Tank(int x, int y, TankClient tc) {
-		this(x, y);
+	public Tank(int x, int y, TankClient tc,boolean good) {
+		this(x, y,good);
 		this.tc = tc;
 	}
 
 	public void draw(Graphics g) {
 		Color c = g.getColor();
-		g.setColor(Color.WHITE);
+		if(good) g.setColor(Color.WHITE);
+		else 		g.setColor(Color.BLUE);
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		locateDirection();

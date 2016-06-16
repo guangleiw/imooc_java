@@ -19,7 +19,10 @@ public class TankClient extends Frame {
 	int x = 50, y = 50;
 	Image offScreenImage = null;
 
-	private Tank myTank = new Tank(x, y,this);
+	private Tank myTank = new Tank(x, y,this,true);
+	
+	Tank enemyTank = new Tank(100,100,this,false);
+	   
 //	public Missile misile = null;
 	
 	List<Missile> missiles = new ArrayList<>();
@@ -46,6 +49,7 @@ public class TankClient extends Frame {
 		}
 		
 		myTank.draw(g);
+		enemyTank.draw(g);
 		
 		g.drawString("missiles count "+missiles.size(), 10,50);
 //		if (misile != null)

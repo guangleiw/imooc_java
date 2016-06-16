@@ -1,11 +1,12 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Tank {
 
-	private static final int XSPEED = 5;
-	private static final int YSPEED = 5;
+	private static final int XSPEED = 8;
+	private static final int YSPEED = 8;
 
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 30;
@@ -14,40 +15,49 @@ public class Tank {
 	private boolean bU = false;
 	private boolean bR = false;
 	private boolean bD = false;
-	
+
 	private boolean good = true;
 
 	private Missile misile = null;
 	private Direction dir;
 	private Direction barrelDir = Direction.D;
 	private TankClient tc = null;
-	// private boolean live = true;
-	//
-	// public boolean isLive() {
-	// return live;
-	// }
-
+	private boolean live = true;
 	int x, y;
 
 	enum Direction {
 		L, LU, U, UR, R, RD, D, DL, STOP
 	};
 
-	public Tank(int x, int y,boolean good) {
+	public Tank(int x, int y, boolean good) {
 		this.x = x;
 		this.y = y;
 		this.good = good;
 	}
 
-	public Tank(int x, int y, TankClient tc,boolean good) {
-		this(x, y,good);
+	public Tank(int x, int y, TankClient tc, boolean good) {
+		this(x, y, good);
 		this.tc = tc;
+	}
+	
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
 	}
 
 	public void draw(Graphics g) {
 		Color c = g.getColor();
-		if(good) g.setColor(Color.WHITE);
-		else 		g.setColor(Color.BLUE);
+		
+		if(!isLive()) return;
+		
+		if (good)
+			g.setColor(Color.WHITE);
+		else
+			g.setColor(Color.BLUE);
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		locateDirection();
@@ -161,7 +171,6 @@ public class Tank {
 		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
 
 		tc.missiles.add(new Missile(x, y, this.barrelDir, this.tc));
-		// System.out.println("fire");
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -203,6 +212,10 @@ public class Tank {
 			dir = Direction.DL;
 		else if (!bL && !bU && !bR && !bD)
 			dir = Direction.STOP;
+	}
+
+	public Rectangle getRect() {
+		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 
 }

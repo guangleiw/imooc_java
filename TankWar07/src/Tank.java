@@ -35,9 +35,10 @@ public class Tank {
 		this.good = good;
 	}
 
-	public Tank(int x, int y, TankClient tc, boolean good) {
+	public Tank(int x, int y, TankClient tc, boolean good,Direction dir) {
 		this(x, y, good);
 		this.tc = tc;
+		this.dir = dir;
 	}
 
 	public boolean isLive() {
@@ -112,6 +113,7 @@ public class Tank {
 	}
 
 	public void move() {
+//		System.out.println("move");
 		switch (dir) {
 		case L:
 			x -= XSPEED;
@@ -144,6 +146,7 @@ public class Tank {
 		case STOP:
 			break;
 		}
+
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -180,16 +183,16 @@ public class Tank {
 		int key = e.getKeyCode();
 		switch (key) {
 		case KeyEvent.VK_UP:
-			bU = false;
+//			bU = false;
 			break;
 		case KeyEvent.VK_DOWN:
-			bD = false;
+//			bD = false;
 			break;
 		case KeyEvent.VK_LEFT:
-			bL = false;
+//			bL = false;
 			break;
 		case KeyEvent.VK_RIGHT:
-			bR = false;
+//			bR = false;
 			break;
 		default:
 			break;
@@ -209,9 +212,10 @@ public class Tank {
 			dir = Direction.R;
 		else if (!bL && !bU && bR && bD)
 			dir = Direction.RD;
-		else if (!bL && !bU && !bR && bD)
+		else if (!bL && !bU && !bR && bD){
+//			System.out.println(y);
 			dir = Direction.D;
-		else if (bL && !bU && !bR && bD)
+		}else if (bL && !bU && !bR && bD)
 			dir = Direction.DL;
 		else if (!bL && !bU && !bR && !bD)
 			dir = Direction.STOP;

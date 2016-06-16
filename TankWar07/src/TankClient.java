@@ -19,7 +19,7 @@ public class TankClient extends Frame {
 	int x = 50, y = 50;
 	Image offScreenImage = null;
 
-	private Tank myTank = new Tank(x, y, this, true);
+	private Tank myTank  = new Tank(x,y,this,true,Tank.Direction.STOP);
 
 	// Tank enemyTank = new Tank(100,100,this,false);
 
@@ -72,7 +72,7 @@ public class TankClient extends Frame {
 	public void lunchFrame() {
 
 		for (int i = 0; i < 10; i++) {
-			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false));
+			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false,Tank.Direction.D));
 		}
 
 		this.setLocation(400, 300);

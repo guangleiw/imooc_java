@@ -2,19 +2,24 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Missile {
-	private int x, y;
+	private int x,y;
 	private static final int XSPEED = 10;
 	private static final int YSPEED = 10;
-
+	
 	public static final int WIDTH = 10;
 	public static final int HEIGHT = 10;
-
-	public boolean live = true;
-
+	
+	private boolean live = true;
+	
 	Tank.Direction dir;
-	TankClient tc;
+	private TankClient tc = null;
 
-	public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
+	
+	public boolean isLive() {
+		return live;
+	}
+
+	public Missile(int x, int y, Tank.Direction dir,TankClient tc) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -28,8 +33,13 @@ public class Missile {
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		move();
-		if(x<0||y<0)
 		
+		if(x<0 || y<0 || x>TankClient.GAMEWIDTH||y>TankClient.GAMEHEIGH){
+//			System.out.println("x:"+x+"y:"+y);
+			live = false;
+			this.tc.missiles.remove(this);
+			
+		}
 	}
 
 	public boolean isLive() {

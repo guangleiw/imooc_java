@@ -2,30 +2,41 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Missile {
-	private int x,y;
+	private int x, y;
 	private static final int XSPEED = 10;
 	private static final int YSPEED = 10;
-	
+
 	public static final int WIDTH = 10;
 	public static final int HEIGHT = 10;
-	
+
+	public boolean live = true;
+
 	Tank.Direction dir;
-	public Missile(int x, int y, Tank.Direction dir) {
+	TankClient tc;
+
+	public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.tc = tc;
 	}
-	
-	public void draw(Graphics g){
+
+	public void draw(Graphics g) {
 		Color c = g.getColor();
 		g.setColor(Color.black);
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		move();
+		if(x<0||y<0)
+		
 	}
-	
-	public void move(){
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void move() {
 		switch (dir) {
 		case L:
 			x -= XSPEED;
@@ -59,5 +70,5 @@ public class Missile {
 			break;
 		}
 	}
-	
+
 }

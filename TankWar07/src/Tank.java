@@ -140,8 +140,8 @@ public class Tank {
 	public void fire() {
 		int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
 		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
-
-		tc.missiles.add(new Missile(x, y, barrelDir));
+		
+		tc.missiles.add(new Missile(x, y, barrelDir,this.tc));
 	}
 
 	public void keyReleased(KeyEvent e) {

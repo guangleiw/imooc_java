@@ -26,8 +26,8 @@ public class Missile {
 		this.dir = dir;
 		this.tc = tc;
 	}
-
-	public void draw(Graphics g) {
+	
+	public void draw(Graphics g){
 		Color c = g.getColor();
 		g.setColor(Color.black);
 		g.fillOval(x, y, WIDTH, HEIGHT);
@@ -37,16 +37,11 @@ public class Missile {
 		if(x<0 || y<0 || x>TankClient.GAMEWIDTH||y>TankClient.GAMEHEIGH){
 //			System.out.println("x:"+x+"y:"+y);
 			live = false;
-			this.tc.missiles.remove(this);
-			
+			this.tc.missiles.remove(this);			
 		}
 	}
-
-	public boolean isLive() {
-		return live;
-	}
-
-	public void move() {
+	
+	public void move(){
 		switch (dir) {
 		case L:
 			x -= XSPEED;
@@ -80,5 +75,5 @@ public class Missile {
 			break;
 		}
 	}
-
+	
 }

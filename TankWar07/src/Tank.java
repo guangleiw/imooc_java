@@ -80,7 +80,6 @@ public class Tank {
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		// locateDirection();
-		
 
 		switch (barrelDir) {
 		case L:
@@ -179,6 +178,15 @@ public class Tank {
 			break;
 		}
 
+	}
+
+	public boolean eat(Blood b) {
+		if (live && b.isLive() && getRect().intersects(b.getRect())) {
+			this.setLife(this.getLife()+20);
+			b.setLive(false);
+			return true;
+		}
+		return false;
 	}
 
 	public void keyPressed(KeyEvent e) {

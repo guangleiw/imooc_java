@@ -18,10 +18,6 @@ public class Missile {
 
 	private boolean good;
 
-	public boolean isLive() {
-		return live;
-	}
-
 	public Missile(int x, int y, boolean good, Tank.Direction dir, TankClient tc) {
 		this.x = x;
 		this.y = y;
@@ -40,7 +36,6 @@ public class Missile {
 		if (x < 0 || y < 0 || x > TankClient.GAMEWIDTH || y > TankClient.GAMEHEIGH) {
 			live = false;
 		}
-		// hitTank(this.tc.tanks);
 		hitWall(tc.w1);
 		hitWall(tc.w2);
 		if (!live)
@@ -84,10 +79,20 @@ public class Missile {
 
 	public boolean hitTank(Tank t) {
 		if (this.live && t.isLive() && getRect().intersects(t.getRect()) && t.isGood() != this.good) {
+
+			if (t.isGood()) {
+				t.setLife(t.getLife() - 20);
+				if (t.getLife() <= 0) {
+					t.setLive(false);
+				}
+			} else {
+				t.setLive(false);
+			}
+
 			Explode e = new Explode(x, y, tc);
 			tc.explodes.add(e);
 			this.live = false;
-			t.setLive(false);
+
 			return true;
 		}
 		return false;
@@ -107,11 +112,19 @@ public class Missile {
 	}
 
 	public boolean hitWall(Wall w) {
-		if(live && getRect().intersects(w.getRect())){
+		if (live && getRect().intersects(w.getRect())) {
 			live = false;
 			return true;
 		}
 		return false;
+	}
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
 	}
 
 }

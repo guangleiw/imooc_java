@@ -18,6 +18,15 @@ public class Tank {
 	private boolean bD = false;
 
 	private boolean good = true;
+	private int life = 100;
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
+	}
 
 	private Direction dir;
 	private Direction barrelDir = Direction.D;
@@ -28,6 +37,8 @@ public class Tank {
 	enum Direction {
 		L, LU, U, UR, R, RD, D, DL, STOP
 	};
+
+	private BloodBar bb = new BloodBar();
 
 	public static Random r = new Random();
 	private int step = r.nextInt(12) + 3;
@@ -62,12 +73,14 @@ public class Tank {
 
 		if (isGood()) {
 			g.setColor(Color.WHITE);
+			bb.draw(g);
 		} else {
 			g.setColor(Color.BLUE);
 		}
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		// locateDirection();
+		
 
 		switch (barrelDir) {
 		case L:
@@ -186,7 +199,8 @@ public class Tank {
 		case KeyEvent.VK_RIGHT:
 			bR = true;
 			break;
-		default:
+		case KeyEvent.VK_A:
+			superFire();
 			break;
 		}
 		locateDirection();
@@ -199,6 +213,22 @@ public class Tank {
 		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
 
 		tc.missiles.add(new Missile(x, y, this.good, this.barrelDir, this.tc));
+	}
+
+	public void fire(Direction dir) {
+		if (!live)
+			return;
+		int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
+		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
+
+		tc.missiles.add(new Missile(x, y, this.good, dir, this.tc));
+	}
+
+	public void superFire() {
+		Direction dirs[] = Direction.values();
+		for (int i = 0; i < dirs.length; i++) {
+			fire(dirs[i]);
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -273,6 +303,17 @@ public class Tank {
 	private void stay() {
 		x = oldx;
 		y = oldy;
+	}
+
+	private class BloodBar {
+		public void draw(Graphics g) {
+			Color c = g.getColor();
+			g.setColor(Color.RED);
+			g.drawRect(x, y - 10, WIDTH, 10);
+			int w = WIDTH * life / 100;
+			g.fillRect(x, y - 10, w, 10);
+			g.setColor(c);
+		}
 	}
 
 }

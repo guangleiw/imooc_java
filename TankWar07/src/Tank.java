@@ -23,7 +23,7 @@ public class Tank {
 	private Direction barrelDir = Direction.D;
 	private TankClient tc = null;
 	private boolean live = true;
-	int x, y , oldx,oldy;
+	int x, y, oldx, oldy;
 
 	enum Direction {
 		L, LU, U, UR, R, RD, D, DL, STOP
@@ -116,7 +116,8 @@ public class Tank {
 			}
 			step--;
 		}
-		oldx=x;oldy=y;
+		oldx = x;
+		oldy = y;
 		move();
 
 		if (x < 0)
@@ -253,16 +254,25 @@ public class Tank {
 	public void setGood(boolean good) {
 		this.good = good;
 	}
-	
-	public void collidesWithWalls(Wall w){
-		if(this.getRect().intersects(w.getRect())){
+
+	public void collidesWithWalls(Wall w) {
+		if (this.getRect().intersects(w.getRect())) {
 			stay();
 		}
 	}
-	
-	private void stay(){
-		x=oldx;
-		y=oldy;
+
+	public void collidesWithTanks(java.util.List<Tank> tanks) {
+		for (int i = 0; i < tanks.size(); i++) {
+			Tank t = tanks.get(i);
+			if (t != this && this.getRect().intersects(t.getRect())) {
+				stay();
+			}
+		}
+	}
+
+	private void stay() {
+		x = oldx;
+		y = oldy;
 	}
 
 }

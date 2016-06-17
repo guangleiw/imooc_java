@@ -15,15 +15,14 @@ public class Missile {
 
 	private Tank.Direction dir;
 	private TankClient tc = null;
-	private Explode explode;
-	
-	private boolean good ;
+
+	private boolean good;
 
 	public boolean isLive() {
 		return live;
 	}
 
-	public Missile(int x, int y, boolean good,Tank.Direction dir, TankClient tc) {
+	public Missile(int x, int y, boolean good, Tank.Direction dir, TankClient tc) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
@@ -42,6 +41,8 @@ public class Missile {
 			live = false;
 		}
 		// hitTank(this.tc.tanks);
+		hitWall(tc.w1);
+		hitWall(tc.w2);
 		if (!live)
 			this.tc.missiles.remove(this);
 	}
@@ -101,6 +102,14 @@ public class Missile {
 			if (hitTank(tanks.get(i))) {
 				return true;
 			}
+		}
+		return false;
+	}
+
+	public boolean hitWall(Wall w) {
+		if(live && getRect().intersects(w.getRect())){
+			live = false;
+			return true;
 		}
 		return false;
 	}

@@ -19,14 +19,12 @@ public class TankClient extends Frame {
 	int x = 50, y = 50;
 	Image offScreenImage = null;
 
-	private Tank myTank  = new Tank(x,y,this,true,Tank.Direction.STOP);
-
-	// Tank enemyTank = new Tank(100,100,this,false);
-
-	// public Missile misile = null;
+	private Tank myTank = new Tank(x, y, this, true, Tank.Direction.STOP);
+	
+	public Wall w1 = new Wall(300,200,15,200,this);
+	public Wall w2 = new Wall(500,150,300,15,this);
 
 	List<Missile> missiles = new ArrayList<>();
-	// Explode e = new Explode(70, 70, this);
 	List<Explode> explodes = new ArrayList<>();
 	List<Tank> tanks = new ArrayList<>();
 
@@ -50,7 +48,8 @@ public class TankClient extends Frame {
 		for (int i = 0; i < tanks.size(); i++) {
 			Tank t = tanks.get(i);
 			t.draw(g);
-//			System.out.println("t.dir"+t.dir);
+			t.collidesWithWalls(w1);
+			t.collidesWithWalls(w2);
 		}
 
 		for (int i = 0; i < missiles.size(); i++) {
@@ -60,11 +59,14 @@ public class TankClient extends Frame {
 		}
 
 		myTank.draw(g);
+		w1.draw(g);
+		w2.draw(g);
 
 		for (int i = 0; i < explodes.size(); i++) {
 			Explode e = explodes.get(i);
 			e.draw(g);
 		}
+		
 
 		g.drawString("missiles count " + missiles.size(), 10, 50);
 		g.drawString("explodes count " + explodes.size(), 200, 50);
@@ -74,7 +76,7 @@ public class TankClient extends Frame {
 	public void lunchFrame() {
 
 		for (int i = 0; i < 10; i++) {
-			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false,Tank.Direction.D));
+			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false, Tank.Direction.D));
 		}
 
 		this.setLocation(400, 300);

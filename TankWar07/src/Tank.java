@@ -4,8 +4,6 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
-import com.sun.javafx.sg.prism.NGNode.DirtyFlag;
-
 public class Tank {
 
 	private static final int XSPEED = 8;
@@ -21,12 +19,11 @@ public class Tank {
 
 	private boolean good = true;
 
-	private Missile misile = null;
 	private Direction dir;
 	private Direction barrelDir = Direction.D;
 	private TankClient tc = null;
 	private boolean live = true;
-	int x, y;
+	int x, y , oldx,oldy;
 
 	enum Direction {
 		L, LU, U, UR, R, RD, D, DL, STOP
@@ -119,7 +116,7 @@ public class Tank {
 			}
 			step--;
 		}
-
+		oldx=x;oldy=y;
 		move();
 
 		if (x < 0)
@@ -195,12 +192,12 @@ public class Tank {
 	}
 
 	public void fire() {
-		if(!live) return;
+		if (!live)
+			return;
 		int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
 		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
 
 		tc.missiles.add(new Missile(x, y, this.good, this.barrelDir, this.tc));
-
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -255,6 +252,17 @@ public class Tank {
 
 	public void setGood(boolean good) {
 		this.good = good;
+	}
+	
+	public void collidesWithWalls(Wall w){
+		if(this.getRect().intersects(w.getRect())){
+			stay();
+		}
+	}
+	
+	private void stay(){
+		x=oldx;
+		y=oldy;
 	}
 
 }

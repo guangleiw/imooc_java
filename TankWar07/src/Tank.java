@@ -2,6 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.Random;
+
+import com.sun.javafx.sg.prism.NGNode.DirtyFlag;
 
 public class Tank {
 
@@ -29,13 +32,16 @@ public class Tank {
 		L, LU, U, UR, R, RD, D, DL, STOP
 	};
 
+	public static Random r = new Random();
+	private int step = r.nextInt(12) + 3;
+
 	public Tank(int x, int y, boolean good) {
 		this.x = x;
 		this.y = y;
-		this.good = good;
+		this.setGood(good);
 	}
 
-	public Tank(int x, int y, TankClient tc, boolean good,Direction dir) {
+	public Tank(int x, int y, TankClient tc, boolean good, Direction dir) {
 		this(x, y, good);
 		this.tc = tc;
 		this.dir = dir;
@@ -57,14 +63,14 @@ public class Tank {
 			return;
 		}
 
-		if (good) {
+		if (isGood()) {
 			g.setColor(Color.WHITE);
 		} else {
 			g.setColor(Color.BLUE);
 		}
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
-		locateDirection();
+		// locateDirection();
 
 		switch (barrelDir) {
 		case L:
@@ -99,6 +105,21 @@ public class Tank {
 			this.barrelDir = this.dir;
 		}
 
+		if (!isGood()) {
+			if (r.nextInt(30) == 0) {
+				this.fire();
+			}
+
+			Direction[] dirs = Direction.values();
+
+			if (step == 0) {
+				int rn = r.nextInt(dirs.length);
+				this.dir = dirs[rn];
+				step = r.nextInt(12) + 3;
+			}
+			step--;
+		}
+
 		move();
 
 		if (x < 0)
@@ -113,7 +134,7 @@ public class Tank {
 	}
 
 	public void move() {
-//		System.out.println("move");
+		// System.out.println("move");
 		switch (dir) {
 		case L:
 			x -= XSPEED;
@@ -170,29 +191,32 @@ public class Tank {
 		default:
 			break;
 		}
+		locateDirection();
 	}
 
 	public void fire() {
+		if(!live) return;
 		int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
 		int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
 
-		tc.missiles.add(new Missile(x, y, this.barrelDir, this.tc));
+		tc.missiles.add(new Missile(x, y, this.good, this.barrelDir, this.tc));
+
 	}
 
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 		switch (key) {
 		case KeyEvent.VK_UP:
-//			bU = false;
+			bU = false;
 			break;
 		case KeyEvent.VK_DOWN:
-//			bD = false;
+			bD = false;
 			break;
 		case KeyEvent.VK_LEFT:
-//			bL = false;
+			bL = false;
 			break;
 		case KeyEvent.VK_RIGHT:
-//			bR = false;
+			bR = false;
 			break;
 		default:
 			break;
@@ -212,10 +236,10 @@ public class Tank {
 			dir = Direction.R;
 		else if (!bL && !bU && bR && bD)
 			dir = Direction.RD;
-		else if (!bL && !bU && !bR && bD){
-//			System.out.println(y);
+		else if (!bL && !bU && !bR && bD) {
+			// System.out.println(y);
 			dir = Direction.D;
-		}else if (bL && !bU && !bR && bD)
+		} else if (bL && !bU && !bR && bD)
 			dir = Direction.DL;
 		else if (!bL && !bU && !bR && !bD)
 			dir = Direction.STOP;
@@ -223,6 +247,14 @@ public class Tank {
 
 	public Rectangle getRect() {
 		return new Rectangle(x, y, WIDTH, HEIGHT);
+	}
+
+	public boolean isGood() {
+		return good;
+	}
+
+	public void setGood(boolean good) {
+		this.good = good;
 	}
 
 }

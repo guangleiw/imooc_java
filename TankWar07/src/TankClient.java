@@ -50,10 +50,12 @@ public class TankClient extends Frame {
 		for (int i = 0; i < tanks.size(); i++) {
 			Tank t = tanks.get(i);
 			t.draw(g);
+//			System.out.println("t.dir"+t.dir);
 		}
 
 		for (int i = 0; i < missiles.size(); i++) {
 			missiles.get(i).hitTanks(tanks);
+			missiles.get(i).hitTank(myTank);
 			missiles.get(i).draw(g);
 		}
 
@@ -66,7 +68,7 @@ public class TankClient extends Frame {
 
 		g.drawString("missiles count " + missiles.size(), 10, 50);
 		g.drawString("explodes count " + explodes.size(), 200, 50);
-		g.drawString("explodes count " + tanks.size(), 300, 50);
+		g.drawString("explodes count " + tanks.size(), 400, 50);
 	}
 
 	public void lunchFrame() {

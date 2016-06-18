@@ -19,7 +19,7 @@ public class TankClient extends Frame {
 	int x = 50, y = 50;
 	Image offScreenImage = null;
 
-	private Tank myTank = new Tank(x, y, this, true, Tank.Direction.STOP);
+	private Tank myTank = new Tank(x, y, this, true, Direction.STOP);
 
 	public Wall w1 = new Wall(300, 200, 15, 200, this);
 	public Wall w2 = new Wall(500, 150, 300, 15, this);
@@ -72,6 +72,12 @@ public class TankClient extends Frame {
 			e.draw(g);
 		}
 
+		if (tanks.size() <= 0) {
+			for (int i = 0; i < 5; i++) {
+				tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false, Direction.D));
+			}
+		}
+
 		g.drawString("missiles count " + missiles.size(), 10, 50);
 		g.drawString("explodes count " + explodes.size(), 200, 50);
 		g.drawString("explodes count " + tanks.size(), 400, 50);
@@ -81,7 +87,7 @@ public class TankClient extends Frame {
 	public void lunchFrame() {
 
 		for (int i = 0; i < 10; i++) {
-			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false, Tank.Direction.D));
+			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false, Direction.D));
 		}
 
 		this.setLocation(400, 300);

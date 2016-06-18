@@ -13,12 +13,12 @@ public class Missile {
 
 	private boolean live = true;
 
-	private Tank.Direction dir;
+	private Direction dir;
 	private TankClient tc = null;
 
 	private boolean good;
 
-	public Missile(int x, int y, boolean good, Tank.Direction dir, TankClient tc) {
+	public Missile(int x, int y, boolean good, Direction dir, TankClient tc) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;

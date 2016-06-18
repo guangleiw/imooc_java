@@ -34,9 +34,9 @@ public class Tank {
 	private boolean live = true;
 	int x, y, oldx, oldy;
 
-	enum Direction {
-		L, LU, U, UR, R, RD, D, DL, STOP
-	};
+//	enum Direction {
+//		L, LU, U, UR, R, RD, D, DL, STOP
+//	};
 
 	private BloodBar bb = new BloodBar();
 
@@ -192,6 +192,12 @@ public class Tank {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		switch (key) {
+		case KeyEvent.VK_F2:
+			if(!this.live){
+				this.setLive(true);
+				this.setLife(100);
+			}
+			break;
 		case KeyEvent.VK_CONTROL:
 			fire();
 			break;

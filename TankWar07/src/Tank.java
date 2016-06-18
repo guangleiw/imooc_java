@@ -182,7 +182,7 @@ public class Tank {
 
 	public boolean eat(Blood b) {
 		if (live && b.isLive() && getRect().intersects(b.getRect())) {
-			this.setLife(this.getLife()+20);
+			this.setLife(100);
 			b.setLive(false);
 			return true;
 		}

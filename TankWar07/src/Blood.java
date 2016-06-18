@@ -23,6 +23,9 @@ public class Blood {
 	}
 
 	public void draw(Graphics g) {
+		
+		if(!isLive()) return;
+		
 		Color c = g.getColor();
 		g.setColor(Color.MAGENTA);
 		g.fillRect(x, y, w, h);

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Encapsulate field &apos;Tank.good&apos; in &apos;Tank&apos;&#x0A;- Original project: &apos;TankWar07&apos;&#x0A;- Original element: &apos;Tank.good&apos;&#x0A;- Getter method name: &apos;isGood&apos;&#x0A;- Setter method name: &apos;setGood&apos;&#x0A;- Field visibility: &apos;public&apos;&#x0A;- Use getter and setter methods in declaring type" comments="false" declaring="true" description="Encapsulate field &apos;good&apos;" flags="589830" getter="isGood" id="org.eclipse.jdt.ui.self.encapsulate" input="/src&lt;{Tank.java[Tank^good" insertion="10" setter="setGood" stamp="1466122684164" version="1.0" visibility="1"/>
+</session>

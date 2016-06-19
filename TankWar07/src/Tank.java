@@ -55,6 +55,10 @@ public class Tank {
 		this.dir = dir;
 	}
 
+//	public Tank(int x2, int y2, TankClient tc2, boolean good2, Direction d) {
+//		// TODO Auto-generated constructor stub
+//	}
+
 	public boolean isLive() {
 		return live;
 	}
@@ -241,6 +245,7 @@ public class Tank {
 	public void superFire() {
 		Direction dirs[] = Direction.values();
 		for (int i = 0; i < dirs.length; i++) {
+			if(dirs[i] != Direction.STOP)
 			fire(dirs[i]);
 		}
 	}

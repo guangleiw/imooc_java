@@ -1,7 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Tank {
@@ -20,6 +24,33 @@ public class Tank {
 	private boolean good = true;
 	private int life = 100;
 
+	private static Toolkit tk = Toolkit.getDefaultToolkit();
+
+	private static Map<String, Image> hashImages = new HashMap<String, Image>();
+	// int[] diameter = {4, 7, 12, 18, 26, 32, 49, 30, 14, 6};
+	private static Image imgs[] = null;
+
+	static {
+		imgs = new Image[] { tk.getImage(Explode.class.getClassLoader().getResource("images/tankL.gif")),
+				tk.getImage(Explode.class.getClassLoader().getResource("images/tankLU.gif")),
+				tk.getImage(Explode.class.getClassLoader().getResource("images/tankU.gif")),
+				tk.getImage(Explode.class.getClassLoader().getResource("images/tankRU.gif")),
+				tk.getImage(Explode.class.getClassLoader().getResource("images/tankR.gif")),
+				tk.getImage(Explode.class.getClassLoader().getResource("images/tankRD.gif")),
+				tk.getImage(Explode.class.getClassLoader().getResource("images/tankD.gif")),
+				tk.getImage(Explode.class.getClassLoader().getResource("images/tankLD.gif")) };
+
+		hashImages.put("L", imgs[0]);
+		hashImages.put("LU", imgs[1]);
+		hashImages.put("U", imgs[2]);
+		hashImages.put("RU", imgs[3]);
+		hashImages.put("R", imgs[4]);
+		hashImages.put("RD", imgs[5]);
+		hashImages.put("D", imgs[6]);
+		hashImages.put("LD", imgs[7]);
+
+	}
+
 	public int getLife() {
 		return life;
 	}
@@ -34,9 +65,9 @@ public class Tank {
 	private boolean live = true;
 	int x, y, oldx, oldy;
 
-//	enum Direction {
-//		L, LU, U, UR, R, RD, D, DL, STOP
-//	};
+	// enum Direction {
+	// L, LU, U, UR, R, RD, D, DL, STOP
+	// };
 
 	private BloodBar bb = new BloodBar();
 
@@ -55,9 +86,9 @@ public class Tank {
 		this.dir = dir;
 	}
 
-//	public Tank(int x2, int y2, TankClient tc2, boolean good2, Direction d) {
-//		// TODO Auto-generated constructor stub
-//	}
+	// public Tank(int x2, int y2, TankClient tc2, boolean good2, Direction d) {
+	// // TODO Auto-generated constructor stub
+	// }
 
 	public boolean isLive() {
 		return live;
@@ -68,7 +99,7 @@ public class Tank {
 	}
 
 	public void draw(Graphics g) {
-		Color c = g.getColor();
+//		 Color c = g.getColor();
 
 		if (!isLive()) {
 			tc.tanks.remove(this);
@@ -81,34 +112,34 @@ public class Tank {
 		} else {
 			g.setColor(Color.BLUE);
 		}
-		g.fillOval(x, y, WIDTH, HEIGHT);
-		g.setColor(c);
-		// locateDirection();
+		// g.fillOval(x, y, WIDTH, HEIGHT);
+//		 g.setColor(c);
+		 locateDirection();
 
 		switch (barrelDir) {
 		case L:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT / 2);
+			g.drawImage(hashImages.get("L"), x, y, null);
 			break;
 		case LU:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y);
+			g.drawImage(hashImages.get("LU"), x, y, null);
 			break;
 		case U:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y);
+			g.drawImage(hashImages.get("U"), x, y, null);
 			break;
 		case UR:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y);
+			g.drawImage(hashImages.get("RU"), x, y, null);
 			break;
 		case R:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT / 2);
+			g.drawImage(hashImages.get("R"), x, y, null);
 			break;
 		case RD:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT);
+			g.drawImage(hashImages.get("RD"), x, y, null);
 			break;
 		case D:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y + HEIGHT);
+			g.drawImage(hashImages.get("D"), x, y, null);
 			break;
 		case DL:
-			g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT / 2);
+			g.drawImage(hashImages.get("DL"), x, y, null);
 			break;
 		case STOP:
 			break;
@@ -197,7 +228,7 @@ public class Tank {
 		int key = e.getKeyCode();
 		switch (key) {
 		case KeyEvent.VK_F2:
-			if(!this.live){
+			if (!this.live) {
 				this.setLive(true);
 				this.setLife(100);
 			}
@@ -245,8 +276,8 @@ public class Tank {
 	public void superFire() {
 		Direction dirs[] = Direction.values();
 		for (int i = 0; i < dirs.length; i++) {
-			if(dirs[i] != Direction.STOP)
-			fire(dirs[i]);
+			if (dirs[i] != Direction.STOP)
+				fire(dirs[i]);
 		}
 	}
 
@@ -290,6 +321,7 @@ public class Tank {
 			dir = Direction.DL;
 		else if (!bL && !bU && !bR && !bD)
 			dir = Direction.STOP;
+//		barrelDir = dir;
 	}
 
 	public Rectangle getRect() {

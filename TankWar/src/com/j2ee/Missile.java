@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 /**
- * ÅÚµ¯Àà ÓÃÀ´Éú³ÉÅÚµ¯
+ * ç‚®å¼¹ç±» å®šä¹‰ç‚®å¼¹çš„å±æ€§æ–¹æ³•ç­‰
  * @author wangguanglei1
  *
  */
@@ -32,7 +32,7 @@ public class Missile {
 	private static Map<String, Image> hashImages = new HashMap<String, Image>();
 	private static Image imgs[] = null;
 	/*
-	 * ¶ÁÈ¡Ã¿¸ö·½ÏòÅÚµ¯Í¼Æ¬ 
+	 * é€šè¿‡staticå±æ€§ç±»åŠ è½½å›¾ç‰‡ é˜²æ­¢å¤šæ¬¡åŠ è½½
 	 */
 	static {
 		imgs = new Image[] { tk.getImage(Missile.class.getClassLoader().getResource("images/missileL.gif")),
@@ -99,7 +99,7 @@ public class Missile {
 		}
 		
 		move();
-		//³ö½çÅĞ¶Ï
+		//è¾¹ç•Œæ£€æµ‹
 		if (x < 0 || y < 0 || x > TankClient.GAMEWIDTH || y > TankClient.GAMEHEIGH) {
 			live = false;
 		}
@@ -145,9 +145,9 @@ public class Missile {
 	}
 
 	/**
-	 * ×²»÷Ì¹¿Ë
-	 * @param t Ì¹¿Ë
-	 * @return ×²ÉÏ ·µ»Øtrue
+	 * æ’å‡»å¦å…‹
+	 * @param t è¢«æ’å‡»çš„å¦å…‹
+	 * @return æˆåŠŸè¿”å›true
 	 */
 	public boolean hitTank(Tank t) {
 		if (this.live && t.isLive() && getRect().intersects(t.getRect()) && t.isGood() != this.good) {
@@ -184,9 +184,9 @@ public class Missile {
 	}
 
 	/**
-	 * ×²Ç½
-	 * @param w Ç½
-	 * @return ×²ÉÏ·µ»Ø true
+	 * æ’å¢™
+	 * @param w ä¸ºå¢™
+	 * @return æˆåŠŸè¿”å›true
 	 */
 	public boolean hitWall(Wall w) {
 		if (live && getRect().intersects(w.getRect())) {

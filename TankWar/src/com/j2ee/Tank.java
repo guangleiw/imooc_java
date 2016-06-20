@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 /**
- * Ì¹¿ËÀà 
+ * å¦å…‹ç±» ç”¨æ¥å®šä¹‰å¦å…‹çš„å±æ€§å’Œæ–¹æ³•
  * @author wangguanglei1
  *
  */
@@ -30,7 +30,7 @@ public class Tank {
 	private int life = 100;
 
 	private Direction dir;
-	private Direction barrelDir = Direction.D;//ÅÚ¹Ü·½Ïò
+	private Direction barrelDir = Direction.D;//ï¿½Ú¹Ü·ï¿½ï¿½ï¿½
 	private TankClient tc = null;
 	private boolean live = true;
 	int x, y, oldx, oldy;
@@ -145,9 +145,8 @@ public class Tank {
 		}
 
 		/**
-		 * Èç¹ûÊÇµĞ¾üÌ¹¿Ë,
-		 * ¿ª»ğ¼ä¸ô²»ÄÜÌ«¶Ì
-		 * ÔË¶¯¹ì¼£²»ÄÜÍêÈ«Ëæ»ú
+		 * å®šä¹‰æ•Œæ–¹å¦å…‹çš„è¿åŠ¨è½¨è¿¹
+		 * å®šä¹‰åœ°æ–¹å¦å…‹çš„å¼€ç«æ—¶æœº
 		 */
 		if (!isGood()) {
 			if (r.nextInt(30) == 0) {
@@ -181,7 +180,8 @@ public class Tank {
 	}
 
 	/**
-	 * ¼üÅÌ¿ØÖÆ·½Ïò key¾ö¶¨ dir,dir¾ö¶¨×ø±ê
+	 * å¯¹äºæˆ‘æ–¹å¦å…‹æ¥è¯´ï¼ŒæŒ‰é”®å†³å®šdir
+	 * dirå†³å®šåæ ‡
 	 */
 	public void move() {
 		switch (dir) {
@@ -277,7 +277,7 @@ public class Tank {
 		tc.missiles.add(new Missile(x, y, this.good, dir, this.tc));
 	}
 	/**
-	 * Ïò°Ë·½·½Ïò·¢Éä³¬¼¶ÅÚµ¯
+	 * è¶…çº§ç‚®å¼¹ --å…«ä¸ªæ–¹å‘
 	 */
 	public void superFire() {
 		Direction dirs[] = Direction.values();
@@ -358,7 +358,7 @@ public class Tank {
 	}
 
 	/**
-	 * ×²µ½Ç½ Ö®ºó ÒªÍ£Áô
+	 * æ’å¢™ä¹‹åè¦åœæ­¢
 	 */
 	private void stay() {
 		x = oldx;

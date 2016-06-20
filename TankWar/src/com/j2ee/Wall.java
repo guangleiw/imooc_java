@@ -1,7 +1,11 @@
 package com.j2ee;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
+/**
+ * 
+ * @author wangguanglei1
+ *
+ */
 public class Wall {
 	private int x, y, w, h;
 	TankClient tc;

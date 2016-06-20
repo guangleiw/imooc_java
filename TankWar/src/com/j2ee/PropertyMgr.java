@@ -2,7 +2,7 @@ package com.j2ee;
 import java.io.IOException;
 import java.util.Properties;
 /**
- * 单例模式  读取配置文件
+ * 鍔犺浇閰嶇疆鏂囦欢   鍗曚緥妯″紡
  * @author wangguanglei1
  *
  */

@@ -1,6 +1,6 @@
 package com.j2ee;
 /**
- * ·½ÏòÀà
+ * æ–¹å‘ç±»
  * @author wangguanglei1
  *
  */

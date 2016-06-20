@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 /**
- * ¸Ã³ÌĞòµÄÈë¿ÚÀà
- * »á×Ô¶¯µ÷ÓÃupdate ºÍ paint·½·¨
+ * è¿™ä¸ªæ˜¯å¦å…‹å¤§æˆ˜çš„å…¥å£ç±»
  * @author wangguanglei1
  *
  */

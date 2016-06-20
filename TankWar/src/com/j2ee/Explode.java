@@ -1,11 +1,18 @@
+package com.j2ee;
 import java.awt.*;
+/**
+ * 爆炸类,用来生成爆炸
+ * 
+ * @author wangguanglei1
+ *
+ */
 
 public class Explode {
 	int x, y;
 	private boolean live = true;
 
 	private TankClient tc;
-	private static Toolkit tk= Toolkit.getDefaultToolkit();
+	private static Toolkit tk = Toolkit.getDefaultToolkit();
 
 	// int[] diameter = {4, 7, 12, 18, 26, 32, 49, 30, 14, 6};
 	private static Image imgs[] = { tk.getImage(Explode.class.getClassLoader().getResource("images/0.gif")),
@@ -18,7 +25,7 @@ public class Explode {
 			tk.getImage(Explode.class.getClassLoader().getResource("images/7.gif")),
 			tk.getImage(Explode.class.getClassLoader().getResource("images/8.gif")),
 			tk.getImage(Explode.class.getClassLoader().getResource("images/9.gif")),
-			tk.getImage(Explode.class.getClassLoader().getResource("images/10.gif"))};
+			tk.getImage(Explode.class.getClassLoader().getResource("images/10.gif")) };
 	int step = 0;
 
 	public Explode(int x, int y, TankClient tc) {
@@ -39,10 +46,6 @@ public class Explode {
 			return;
 		}
 
-//		Color c = g.getColor();
-//		g.setColor(Color.ORANGE);
-//		g.fillOval(x, y, diameter[step], diameter[step]);
-//		g.setColor(c);
 		g.drawImage(imgs[step], x, y, null);
 
 		step++;

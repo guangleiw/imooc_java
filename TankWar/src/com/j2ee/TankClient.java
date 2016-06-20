@@ -1,3 +1,4 @@
+package com.j2ee;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -6,9 +7,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Properties;
+/**
+ * 该程序的入口类
+ * 会自动调用update 和 paint方法
+ * @author wangguanglei1
+ *
+ */
 public class TankClient extends Frame {
 
 	public static final int GAMEWIDTH = 800;
@@ -71,9 +79,10 @@ public class TankClient extends Frame {
 			Explode e = explodes.get(i);
 			e.draw(g);
 		}
-
+		
+		int reproduceTankCount = Integer.parseInt(PropertyMgr.getProperty("reproduceTankCount"));
 		if (tanks.size() <= 0) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < reproduceTankCount; i++) {
 				tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false, Direction.D));
 			}
 		}
@@ -85,8 +94,10 @@ public class TankClient extends Frame {
 	}
 
 	public void lunchFrame() {
-
-		for (int i = 0; i < 10; i++) {
+		
+		int initTankCount = Integer.parseInt(PropertyMgr.getProperty("initTankCount"));
+		
+		for (int i = 0; i < initTankCount; i++) {
 			tanks.add(new Tank(50 + 40 * (i + 1), 50, this, false, Direction.D));
 		}
 

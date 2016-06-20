@@ -1,3 +1,4 @@
+package com.j2ee;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 

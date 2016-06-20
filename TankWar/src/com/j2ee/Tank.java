@@ -1,3 +1,4 @@
+package com.j2ee;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -7,14 +8,18 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+/**
+ * 坦克类 
+ * @author wangguanglei1
+ *
+ */
 
 public class Tank {
 
 	private static final int XSPEED = 8;
 	private static final int YSPEED = 8;
 
-	private static final int WIDTH = 30;
-	private static final int HEIGHT = 30;
+
 
 	private boolean bL = false;
 	private boolean bU = false;
@@ -24,21 +29,31 @@ public class Tank {
 	private boolean good = true;
 	private int life = 100;
 
+	private Direction dir;
+	private Direction barrelDir = Direction.D;//炮管方向
+	private TankClient tc = null;
+	private boolean live = true;
+	int x, y, oldx, oldy;
+
+	private BloodBar bb = new BloodBar();
+
+	public static Random r = new Random();
+	private int step = r.nextInt(12) + 3;
+
 	private static Toolkit tk = Toolkit.getDefaultToolkit();
 
 	private static Map<String, Image> hashImages = new HashMap<String, Image>();
-	// int[] diameter = {4, 7, 12, 18, 26, 32, 49, 30, 14, 6};
 	private static Image imgs[] = null;
 
 	static {
-		imgs = new Image[] { tk.getImage(Explode.class.getClassLoader().getResource("images/tankL.gif")),
-				tk.getImage(Explode.class.getClassLoader().getResource("images/tankLU.gif")),
-				tk.getImage(Explode.class.getClassLoader().getResource("images/tankU.gif")),
-				tk.getImage(Explode.class.getClassLoader().getResource("images/tankRU.gif")),
-				tk.getImage(Explode.class.getClassLoader().getResource("images/tankR.gif")),
-				tk.getImage(Explode.class.getClassLoader().getResource("images/tankRD.gif")),
-				tk.getImage(Explode.class.getClassLoader().getResource("images/tankD.gif")),
-				tk.getImage(Explode.class.getClassLoader().getResource("images/tankLD.gif")) };
+		imgs = new Image[] { tk.getImage(Tank.class.getClassLoader().getResource("images/tankL.gif")),
+				tk.getImage(Tank.class.getClassLoader().getResource("images/tankLU.gif")),
+				tk.getImage(Tank.class.getClassLoader().getResource("images/tankU.gif")),
+				tk.getImage(Tank.class.getClassLoader().getResource("images/tankRU.gif")),
+				tk.getImage(Tank.class.getClassLoader().getResource("images/tankR.gif")),
+				tk.getImage(Tank.class.getClassLoader().getResource("images/tankRD.gif")),
+				tk.getImage(Tank.class.getClassLoader().getResource("images/tankD.gif")),
+				tk.getImage(Tank.class.getClassLoader().getResource("images/tankLD.gif")) };
 
 		hashImages.put("L", imgs[0]);
 		hashImages.put("LU", imgs[1]);
@@ -48,8 +63,12 @@ public class Tank {
 		hashImages.put("RD", imgs[5]);
 		hashImages.put("D", imgs[6]);
 		hashImages.put("LD", imgs[7]);
-
 	}
+//	private static final int WIDTH = imgs[0].getWidth(null);
+//	private static final int HEIGHT = imgs[0].getHeight(null);
+	
+	private static final int WIDTH = 30;
+	private static final int HEIGHT = 30;
 
 	public int getLife() {
 		return life;
@@ -58,21 +77,6 @@ public class Tank {
 	public void setLife(int life) {
 		this.life = life;
 	}
-
-	private Direction dir;
-	private Direction barrelDir = Direction.D;
-	private TankClient tc = null;
-	private boolean live = true;
-	int x, y, oldx, oldy;
-
-	// enum Direction {
-	// L, LU, U, UR, R, RD, D, DL, STOP
-	// };
-
-	private BloodBar bb = new BloodBar();
-
-	public static Random r = new Random();
-	private int step = r.nextInt(12) + 3;
 
 	public Tank(int x, int y, boolean good) {
 		this.x = x;
@@ -86,10 +90,6 @@ public class Tank {
 		this.dir = dir;
 	}
 
-	// public Tank(int x2, int y2, TankClient tc2, boolean good2, Direction d) {
-	// // TODO Auto-generated constructor stub
-	// }
-
 	public boolean isLive() {
 		return live;
 	}
@@ -99,7 +99,7 @@ public class Tank {
 	}
 
 	public void draw(Graphics g) {
-//		 Color c = g.getColor();
+		// Color c = g.getColor();
 
 		if (!isLive()) {
 			tc.tanks.remove(this);
@@ -107,14 +107,11 @@ public class Tank {
 		}
 
 		if (isGood()) {
-			g.setColor(Color.WHITE);
 			bb.draw(g);
-		} else {
-			g.setColor(Color.BLUE);
 		}
-		// g.fillOval(x, y, WIDTH, HEIGHT);
-//		 g.setColor(c);
-		 locateDirection();
+		if (this.dir != Direction.STOP) {
+			this.barrelDir = this.dir;
+		}
 
 		switch (barrelDir) {
 		case L:
@@ -133,9 +130,11 @@ public class Tank {
 			g.drawImage(hashImages.get("R"), x, y, null);
 			break;
 		case RD:
+//			System.out.println("hashImages:"+hashImages.get("RD").toString());
 			g.drawImage(hashImages.get("RD"), x, y, null);
 			break;
 		case D:
+			
 			g.drawImage(hashImages.get("D"), x, y, null);
 			break;
 		case DL:
@@ -145,10 +144,11 @@ public class Tank {
 			break;
 		}
 
-		if (this.dir != Direction.STOP) {
-			this.barrelDir = this.dir;
-		}
-
+		/**
+		 * 如果是敌军坦克,
+		 * 开火间隔不能太短
+		 * 运动轨迹不能完全随机
+		 */
 		if (!isGood()) {
 			if (r.nextInt(30) == 0) {
 				this.fire();
@@ -165,6 +165,8 @@ public class Tank {
 		}
 		oldx = x;
 		oldy = y;
+//		if (!isGood())
+//			System.out.println(barrelDir);
 		move();
 
 		if (x < 0)
@@ -178,8 +180,10 @@ public class Tank {
 
 	}
 
+	/**
+	 * 键盘控制方向 key决定 dir,dir决定坐标
+	 */
 	public void move() {
-		// System.out.println("move");
 		switch (dir) {
 		case L:
 			x -= XSPEED;
@@ -272,7 +276,9 @@ public class Tank {
 
 		tc.missiles.add(new Missile(x, y, this.good, dir, this.tc));
 	}
-
+	/**
+	 * 向八方方向发射超级炮弹
+	 */
 	public void superFire() {
 		Direction dirs[] = Direction.values();
 		for (int i = 0; i < dirs.length; i++) {
@@ -321,11 +327,11 @@ public class Tank {
 			dir = Direction.DL;
 		else if (!bL && !bU && !bR && !bD)
 			dir = Direction.STOP;
-//		barrelDir = dir;
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle(x, y, WIDTH, HEIGHT);
+//		System.out.println("");
+		return new Rectangle(x, y, imgs[0].getWidth(null), imgs[1].getHeight(null));
 	}
 
 	public boolean isGood() {
@@ -351,6 +357,9 @@ public class Tank {
 		}
 	}
 
+	/**
+	 * 撞到墙 之后 要停留
+	 */
 	private void stay() {
 		x = oldx;
 		y = oldy;

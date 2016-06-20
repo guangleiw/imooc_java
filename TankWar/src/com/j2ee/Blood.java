@@ -1,7 +1,12 @@
+package com.j2ee;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
+/**
+ * 这个类的作用是为坦克加血
+ * @author wangguanglei1
+ *
+ */
 public class Blood {
 	int x, y, w = 15, h = 15;
 	TankClient tc;
@@ -15,6 +20,7 @@ public class Blood {
 		this.live = live;
 	}
 
+	//指明血块运动的轨迹, 由pos中各个点构成
 	private int pos[][] = { { 350, 300 }, { 360, 300 },{ 375, 275 }, { 400, 200 }, { 360, 270},{ 365, 290}, { 340, 280 }};
 
 	public Blood() {

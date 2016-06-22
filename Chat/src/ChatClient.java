@@ -6,18 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class ChatClient extends Frame {
-	
+
 	Socket s;
 
 	TextField tfTxt = new TextField();
 	TextArea taContent = new TextArea();
 	DataOutputStream dos = null;
+	DataInputStream dis = null;
+	private boolean bCon = false;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -42,15 +46,18 @@ public class ChatClient extends Frame {
 		});
 		tfTxt.addActionListener(new tfListener());
 		this.setVisible(true);
-		
+
 		connect();
+		new Thread(new RecvThread()).start();
 	}
-	
-	private void connect(){
+
+	private void connect() {
 		try {
-			s = new Socket("127.0.0.1",8710);
+			s = new Socket("127.0.0.1", 8710);
 			dos = new DataOutputStream(s.getOutputStream());
-System.out.println("connected!");
+			dis = new DataInputStream(s.getInputStream());
+			System.out.println("connected!");
+			bCon = true;
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,24 +66,27 @@ System.out.println("connected!");
 			e.printStackTrace();
 		}
 	}
-	
-	public void disconnect(){
+
+	public void disconnect() {
 		try {
+			bCon = false;
 			dos.close();
+			dis.close();
 			s.close();
+			System.out.println("close");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-	
-	private class tfListener implements ActionListener{
+
+	private class tfListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String str = tfTxt.getText();
-			taContent.setText(str);
+//			taContent.setText(str);
 			tfTxt.setText("");
 			try {
 				dos.writeUTF(str);
@@ -85,9 +95,32 @@ System.out.println("connected!");
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
 		}
-		
 	}
 
+	private class RecvThread implements Runnable {
+		public void run() {
+			try {
+				while (bCon) {
+					String str;
+					str = dis.readUTF();
+					taContent.setText(taContent.getText()+ " "+str);
+					System.out.println(str);
+				}
+			}catch (SocketException e){
+//				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				bCon = false;
+				try {
+					dis.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

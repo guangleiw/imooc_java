@@ -17,6 +17,7 @@ public class ChatClient extends Frame {
 
 	TextField tfTxt = new TextField();
 	TextArea taContent = new TextArea();
+	DataOutputStream dos = null;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -35,6 +36,7 @@ public class ChatClient extends Frame {
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
 				super.windowClosing(e);
+				disconnect();
 				System.exit(0);
 			}
 		});
@@ -47,6 +49,7 @@ public class ChatClient extends Frame {
 	private void connect(){
 		try {
 			s = new Socket("127.0.0.1",8710);
+			dos = new DataOutputStream(s.getOutputStream());
 System.out.println("connected!");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -57,6 +60,17 @@ System.out.println("connected!");
 		}
 	}
 	
+	public void disconnect(){
+		try {
+			dos.close();
+			s.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	private class tfListener implements ActionListener{
 
 		@Override
@@ -64,12 +78,9 @@ System.out.println("connected!");
 			String str = tfTxt.getText();
 			taContent.setText(str);
 			tfTxt.setText("");
-			DataOutputStream dos;
 			try {
-				dos = new DataOutputStream(s.getOutputStream());
 				dos.writeUTF(str);
 				dos.flush();
-				dos.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
